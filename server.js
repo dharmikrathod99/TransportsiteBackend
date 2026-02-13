@@ -4,13 +4,16 @@ import mongoose from "mongoose";
 import cors from "cors";
 import path from "path";
 
-import authRoutes from "./Routes/auth.js";
+import authRoutes from "./routes/auth.js";
 import adminRoutes from "./routes/admin.js";
 import userDataRoutes from './routes/userData.js'
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: "https://transportsite.vercel.app/",
+    credentials: true
+}));
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);

@@ -11,7 +11,7 @@ import userDataRoutes from './routes/userData.js'
 const app = express();
 
 app.use(cors({
-    origin: "https://transportsite.vercel.app/",
+    origin: "https://transportsite.vercel.app",
     credentials: true
 }));
 app.use(express.json());

@@ -11,6 +11,7 @@ const router = express.Router();
 router.post("/register", async (req, res) => {
     try {
         const { name, email, password } = req.body;
+        const normalizedEmail = email.toLowerCase();
 
         // 1️⃣ Validation
         if (!name || !email || !password) {
@@ -18,7 +19,7 @@ router.post("/register", async (req, res) => {
         }
 
         // 2️⃣ Check existing user
-        const userExists = await User.findOne({ email });
+        const userExists = await User.findOne({ email: normalizedEmail });
         if (userExists) {
             return res.status(400).json({ message: "User already exists" });
         }
@@ -29,7 +30,7 @@ router.post("/register", async (req, res) => {
         // 4️⃣ Save user
         const user = new User({
             name,
-            email,
+            email: normalizedEmail,
             password: hashedPassword,
         });
 
@@ -52,7 +53,9 @@ router.post("/login", async (req, res) => {
         const { email, password } = req.body;
 
         // 1️⃣ Check user
-        const user = await User.findOne({ email });
+        const user = await User.findOne({
+            email: email.toLowerCase()
+        });
         if (!user) {
             return res.status(400).json({ message: "Invalid email or password" });
         }
